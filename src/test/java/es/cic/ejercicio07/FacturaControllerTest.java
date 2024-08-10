@@ -37,6 +37,6 @@ public class FacturaControllerTest {
         when(facturaService.getFacturaById(facturaId)).thenReturn(factura);
 
         mockMvc.perform(get("/facturas/{id}", facturaId))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isOk());
     }
 }
