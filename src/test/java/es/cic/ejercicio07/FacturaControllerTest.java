@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,20 +21,20 @@ public class FacturaControllerTest {
     @MockBean
     private FacturaService facturaService;
 
-    @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    public void testGetFacturaById_Authorized() throws Exception {
-        Long facturaId = 1L;
-        Factura factura = new Factura(facturaId, "Concepto de prueba", 100.0);
-        when(facturaService.getFacturaById(facturaId)).thenReturn(factura);
+    private Long facturaId;
+    private Factura factura;
 
-        mockMvc.perform(get("/facturas/{id}", facturaId))
-                .andExpect(status().isOk());
+    @BeforeEach
+    public void setUp() {
+        facturaId = 1L;
+        factura = new Factura(facturaId, "Concepto de prueba", 100.0);
     }
 
     @Test
-    public void testGetFacturaById_Unauthorized() throws Exception {
-        Long facturaId = 1L;
+    @WithMockUser(username = "user", roles = {"USER"})
+    public void testGetFacturaById_Authorized() throws Exception {
+        
+        when(facturaService.getFacturaById(facturaId)).thenReturn(factura);
 
         mockMvc.perform(get("/facturas/{id}", facturaId))
                 .andExpect(status().isUnauthorized());

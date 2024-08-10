@@ -1,12 +1,12 @@
 package es.cic.ejercicio07;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Service
 public class FacturaService {
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Factura getFacturaById(Long id) {
         // Como no hay repositorio devuelvo una instancia de Factura.
         Factura factura = new Factura();
